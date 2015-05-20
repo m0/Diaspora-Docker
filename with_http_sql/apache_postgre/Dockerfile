@@ -4,21 +4,20 @@ MAINTAINER Florian Bigard <florian.bigard@gmail.com>
 ENV POSTGRESQLTMPROOT temprootpass
 
 # Update and upgrade
-RUN apt-get update
-RUN apt-get -y upgrade
+RUN apt-get update && apt-get -y upgrade
 
 # Install Apache
-RUN apt-get -y install apache2
+RUN apt-get update && apt-get -y install apache2
 
 # Install PostgreSQL
-RUN apt-get install -y libpq-dev postgresql-9.1 sudo
+RUN apt-get update && apt-get install -y libpq-dev postgresql-9.1 sudo
 
 RUN apt-get clean
 
 RUN rm /var/lib/postgresql/9.1/main/server.key && \
-       cp /etc/ssl/private/ssl-cert-snakeoil.key /var/lib/postgresql/9.1/main/server.key && \
-        chown postgres:postgres /var/lib/postgresql/9.1/main/server.key && \
-            chmod 740 /var/lib/postgresql/9.1/main/server.key
+    cp /etc/ssl/private/ssl-cert-snakeoil.key /var/lib/postgresql/9.1/main/server.key && \
+    chown postgres:postgres /var/lib/postgresql/9.1/main/server.key && \
+    chmod 740 /var/lib/postgresql/9.1/main/server.key
 
 ADD install.sh /home/diaspora/install.sh
 ADD install_diaspora.sh /home/diaspora/install_diaspora.sh

@@ -4,17 +4,16 @@ MAINTAINER Florian Bigard <florian.bigard@gmail.com>
 ENV MYSQLTMPROOT temprootpass
 
 # Update and upgrade
-RUN apt-get update
-RUN apt-get -y upgrade
+RUN apt-get update && apt-get -y upgrade
 
 # Install Apache
-RUN apt-get -y install -t wheezy-backports nginx
+RUN apt-get update && apt-get -y install -t wheezy-backports nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Install MySQL
 RUN echo mysql-server mysql-server/root_password password $MYSQLTMPROOT | debconf-set-selections;\
-  echo mysql-server mysql-server/root_password_again password $MYSQLTMPROOT | debconf-set-selections;\
-    apt-get install -y mysql-server
+    echo mysql-server mysql-server/root_password_again password $MYSQLTMPROOT | debconf-set-selections;
+RUN apt-get update && apt-get install -y mysql-server
 
 RUN apt-get clean
 
